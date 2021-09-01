@@ -11,7 +11,7 @@
 class Article < ApplicationRecord
   validates :title, presence: true
   validates :title, length: { minimum: 2, maximum: 100 }
-  validates :title, format: { with: /\A(?!\@)/ }
+  validates :title, format: { with: /\A(?!@)/ }
 
   validates :content, presence: true
   validates :content, length: { minimum: 10 }
@@ -24,10 +24,9 @@ class Article < ApplicationRecord
   end
 
   private
+
   def validate_title_content_length
-    char_count = self.title.length + self.content.length
-    unless char_count > 100
-      errors.add(:content, 'はタイトルと合計して１００文字以上で入力してください')
-    end
+    char_count = title.length + content.length
+    errors.add(:content, 'はタイトルと合計して１００文字以上で入力してください') unless char_count > 100
   end
 end
